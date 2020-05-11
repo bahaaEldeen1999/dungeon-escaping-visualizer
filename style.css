@@ -1,0 +1,77 @@
+*{
+    transition: .3s ease-in-out;
+}
+.container{
+    padding: 10px;
+}
+#maze{
+    height: 100vh;
+    padding: 0;
+    line-height: 0;    
+}
+
+.cell{
+    padding: 0;
+    margin: 0;
+    border: 1px solid;
+    display: inline-block;  
+    text-align: center;
+    box-shadow: inset 5px black;
+}
+.free-cell{
+    background-color: lightskyblue;
+}
+.wall-cell{
+    background-color: burlywood;
+}
+.door-cell-red {
+    background-color:lightcoral;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.door-cell-blue {
+    background-color:blue;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.door-cell-green {
+    background-color:green;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.door-cell-yellow {
+    background-color:orange;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.key-cell-red i{
+    color:red;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.key-cell-blue i{
+    color:blue;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.key-cell-green i{
+    color:green;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.key-cell-yellow i{
+    color:orange;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 20px;
+}
