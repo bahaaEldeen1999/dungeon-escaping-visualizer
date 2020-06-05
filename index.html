@@ -3,22 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>dungeon escaping visualizer</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div  class="container">
-        <div id="maze">
+    <div  class="row">
+        <div class="col md-8" >
 
+            <div id="maze" >
+
+            </div>
+        </div>
+        <div class="col col-md-2">
+            <div>
+                <h1>Inventory</h1>
+                <div id="inventory" style="margin-bottom: 30px;"> 
+                    No keys are collected 
+                </div>
+            </div>
+            <div>
+                <label for="speed" style="font-size: 20px;">speed</label>
+                <input type="range" id="speed" max="100" min="0"  class="form-control-range">
+                <button class="btn btn-info" style="display:block;width: 160px;margin: 20px auto;" id="solve">
+                    solve
+                </button>
+                <button class="btn btn-danger" style="display:block;width: 160px;margin: auto;" id="reset" onclick="reset()">
+                    reset
+                </button>
+            </div>
+          
+        </div>
+        <div class="col col-md-2 " id="menu">
+            <div>
+                <div id="currently-selected">
+                   currently selected  :  <span id="current-text">wall</span>
+                </div>
+            </div>
+            <div class="wall">
+                <i class="fa fa-square"></i>wall
+            </div>
+            <div class="player">
+                <i class="fa fa-user"></i>player start
+            </div>
+            <div class="exit">
+                <i class="fa fa-sign-out"></i>exit 
+            </div>
+            <div class="door-red">
+                <i class="fa fa-bank"></i>red gate
+            </div>
+            <div class="door-green">
+                <i class="fa fa-bank"></i>green gate
+            </div>
+            <div class="door-blue">
+                <i class="fa fa-bank"></i>blue gate
+            </div>
+            <div class="door-yellow">
+                <i class="fa fa-bank"></i>yellow gate
+            </div>
+
+            <div class="key-red">
+                <i class="fa fa-key"></i>red key
+            </div>
+            <div class="key-green">
+                <i class="fa fa-key"></i>green key
+            </div>
+            <div class="key-blue">
+                <i class="fa fa-key"></i>blue key
+            </div>
+            <div class="key-yellow">
+                <i class="fa fa-key"></i>yellow key
+            </div>
+
+            
         </div>
     </div>
  
-        <button onclick="generate()">generateArray</button>
-
-   
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
     <script src="helper.js"></script>
     <script src="initialize.js"></script>
     <script src="algorithm.js"></script>

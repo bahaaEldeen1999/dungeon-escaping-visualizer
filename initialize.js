@@ -1,7 +1,7 @@
 const maze = document.getElementById('maze');
-const cellFactor =Math.floor(maze.offsetHeight/10) ; 
-const N= 10//Math.floor(maze.offsetHeight/cellFactor);
-const M = 10//Math.floor(maze.offsetWidth/cellFactor);
+const cellFactor =40 ; 
+const N= Math.floor(maze.offsetHeight/cellFactor);
+const M = Math.floor(maze.offsetWidth/cellFactor);
 const noOfKeys = 4;
 const border = 1;
 const emptyColor = 'lightgreen';
@@ -11,14 +11,20 @@ const keyCellClass = 'key-cell';
 const doorCellClass = 'door-cell';
 const playerCellClass = 'player';
 const outCellClass = 'out';
+let currentlySelected = 'wall';
 let clicked = -1;
 let mazeGrid = constructMazeGrid(N,M);
-const visited = constructVisitedArr(noOfKeys,N,M);
-const mazeCells = createMaze(N,M);
+let visited = constructVisitedArr(noOfKeys,N,M);
+let mazeCells = createMaze(N,M);
+let isPlayer = false;
+let isExit = false;
+const selectText = document.querySelector("#current-text")
+let start = {x:-1,y:-1};
+
 function constructVisitedArr(noOfKeys,N,M){
-    let visited = new Array(Math.pow(2,noOfKeys)); // [2^no][N][M]
+    let vis = new Array(Math.pow(2,noOfKeys)); // [2^no][N][M]
     // construct visited array
-    for(let i=0;i<visited.length;i++){
+    for(let i=0;i<vis.length;i++){
         let na = new Array(N);
         for(let j=0;j<N;j++){
             let ma = new Array(M);
@@ -26,11 +32,13 @@ function constructVisitedArr(noOfKeys,N,M){
                 ma[k]=0;
             }
             na[j] = ma;
+         //   console.log(na[j])
         }
-        visited[i]=na;
+        vis[i]=na;
         
     }
-    return visited;
+   // console.log(vis)
+    return vis;
 }
 
 function constructMazeGrid(N,M){
@@ -60,6 +68,7 @@ function createCell(width,height,color,text,i,j){
 
 
 function createMaze(N,M){
+    maze.innerHTML = ""
     let mazeCells = [];
     for(let i=0;i<N;i++){
         let mazeRow = [];
@@ -82,6 +91,8 @@ function updateCell(cell,cellType){
     let posJ =Number(cell.posJ);
     switch(cellType){
         case 'free':
+            if( mazeGrid[posI][posJ] == '*')isPlayer = false;
+            if( mazeGrid[posI][posJ] == 'X')isExit = false;
             cell.innerHTML = '';
             cell.classList = '';
             cell.classList.add('cell');
@@ -99,7 +110,7 @@ function updateCell(cell,cellType){
             cell.classList.add(wallCellClass);
             mazeGrid[posI][posJ] = '#';
             break;
-        case 'red-door':
+        case 'door-red':
         {
             cell.innerHTML = '';
             cell.classList = '';
@@ -114,7 +125,7 @@ function updateCell(cell,cellType){
             mazeGrid[posI][posJ] = 'R';
             break;
         }
-        case 'green-door':
+        case 'door-green':
         {
             cell.innerHTML = '';
             cell.classList = '';
@@ -129,7 +140,7 @@ function updateCell(cell,cellType){
             mazeGrid[posI][posJ] = 'G';
             break;
         }
-        case 'yellow-door':
+        case 'door-yellow':
         {
             
             cell.innerHTML = '';
@@ -145,7 +156,7 @@ function updateCell(cell,cellType){
             mazeGrid[posI][posJ] = 'Y';
             break;
         }
-        case 'blue-door':
+        case 'door-blue':
         {
             cell.innerHTML = '';
             cell.classList = '';
@@ -160,7 +171,7 @@ function updateCell(cell,cellType){
             mazeGrid[posI][posJ] = 'B';
             break;
         }
-        case 'red-key':
+        case 'key-red':
             {
                 cell.innerHTML = '';
                 cell.classList = '';
@@ -175,7 +186,7 @@ function updateCell(cell,cellType){
                 mazeGrid[posI][posJ] = 'r';
                 break;
             }
-        case 'green-key':
+        case 'key-green':
             {
                 cell.innerHTML = '';
                 cell.classList = '';
@@ -190,7 +201,7 @@ function updateCell(cell,cellType){
                 mazeGrid[posI][posJ] = 'g';
                 break;
             }
-        case 'yellow-key':
+        case 'key-yellow':
             {
                 
                 cell.innerHTML = '';
@@ -206,7 +217,7 @@ function updateCell(cell,cellType){
                 mazeGrid[posI][posJ] = 'y';
                 break;
             }
-        case 'blue-key':
+        case 'key-blue':
             {
                 cell.innerHTML = '';
                 cell.classList = '';
@@ -223,26 +234,39 @@ function updateCell(cell,cellType){
             }
         case 'player':
             {
+                if(isPlayer){
+                    bootbox.alert("cannot add more than 1 player")
+                    return 0;
+                }
+                isPlayer = true;
                 cell.innerHTML = '';
                 cell.classList = '';
                 cell.classList.add('cell');
                 cell.classList.add('animated');
-                cell.classList.add('flipInX')
+                cell.classList.add('flipInX');
+                cell.classList.add('player-cell');
                 cell.classList.add(playerCellClass);
                 let icon = document.createElement('i');
                 icon.classList.add('fa');
-                icon.classList.add('fa-male');
+                icon.classList.add('fa-user');
                 cell.appendChild(icon);
                 mazeGrid[posI][posJ] = '*';
+                start = {x:posI,y:posJ};
                 break;
             }
-        case 'out':
+        case 'exit':
                 {
+                    if(isExit){
+                        bootbox.alert("cannot add more than 1 exit")
+                        return 0;
+                    }
+                    isExit = true;
                     cell.innerHTML = '';
                     cell.classList = '';
                     cell.classList.add('cell');
                     cell.classList.add('animated');
-                    cell.classList.add('flipInX')
+                    cell.classList.add('flipInX');
+                    cell.classList.add('exit-cell');
                     cell.classList.add(outCellClass);
                     let icon = document.createElement('i');
                     icon.classList.add('fa');
@@ -256,7 +280,46 @@ function updateCell(cell,cellType){
 
     }
 }
-
+function reset(){
+     currentlySelected = 'wall-cell';
+     clicked = -1;
+     mazeGrid = constructMazeGrid(N,M);
+     visited = constructVisitedArr(noOfKeys,N,M);
+     mazeCells = createMaze(N,M);
+     isPlayer = false;
+     isExit = false;
+     for(let i=0;i<N;i++){
+        for(let j=0;j<M;j++){
+            let cell = mazeCells[i][j];
+            cell.addEventListener('mousemove',()=>{
+                if(clicked == 1){
+                    
+                    if(cell.classList.contains(freeCellClass)){
+                        updateCell(cell,currentlySelected)
+                    }else{
+                        updateCell(cell,'free')
+                    }
+                }
+            })
+            cell.addEventListener('mousedown',()=>{
+                clicked = 1;
+                event.preventDefault()
+            });
+            cell.addEventListener('click',()=>{
+               
+                    
+                    if(cell.classList.contains(freeCellClass)){
+                        updateCell(cell,currentlySelected)
+                    }else{
+                        updateCell(cell,'free')
+                    }
+                
+            })
+           
+            
+    }
+    }
+}
 
 for(let i=0;i<N;i++){
     for(let j=0;j<M;j++){
@@ -265,7 +328,7 @@ for(let i=0;i<N;i++){
             if(clicked == 1){
                 
                 if(cell.classList.contains(freeCellClass)){
-                    updateCell(cell,'wall')
+                    updateCell(cell,currentlySelected)
                 }else{
                     updateCell(cell,'free')
                 }
@@ -279,7 +342,7 @@ for(let i=0;i<N;i++){
            
                 
                 if(cell.classList.contains(freeCellClass)){
-                    updateCell(cell,'wall')
+                    updateCell(cell,currentlySelected)
                 }else{
                     updateCell(cell,'free')
                 }
@@ -290,6 +353,26 @@ for(let i=0;i<N;i++){
 }
 }
 window.addEventListener('mouseup',()=>{
-    console.log('mouseuo')
+   
     clicked = -1;
 });
+
+const menuSelect = document.querySelectorAll('#menu>div');
+menuSelect.forEach(div=>{
+    div.addEventListener('click',(e)=>{
+        
+        let selected = div.className
+        if(selected == "player" && isPlayer){
+            bootbox.alert("cannot add more than 1 player")
+            return;
+        }
+        if(selected == "out" && isExit){
+            bootbox.alert("cannot add more than 1 exit")
+            return;
+        }
+        currentlySelected = selected
+        selectText.innerText = currentlySelected
+    })
+})
+//document.querySelectorAll('.fa').forEach(icon=>icon.classList.add("fa-2x"))
+const solveButton = document.querySelector("#solve");

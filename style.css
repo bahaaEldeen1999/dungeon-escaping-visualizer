@@ -1,6 +1,7 @@
 *{
     transition: .3s ease-in-out;
 }
+
 .container{
     padding: 10px;
 }
@@ -11,67 +12,101 @@
 }
 
 .cell{
-    padding: 0;
-    margin: 0;
-    border: 1px solid;
+    /* padding: 0;
+    margin: 0; */
+    border: 1px solid black;
     display: inline-block;  
     text-align: center;
     box-shadow: inset 5px black;
+    color: white;
 }
 .free-cell{
     background-color: lightskyblue;
 }
 .wall-cell{
-    background-color: burlywood;
+    background-color: #2c3e50;
 }
 .door-cell-red {
-    background-color:lightcoral;
-    padding: 5px;
-    font-size: 20px;
+    background-color:#e74c3c;
+    /*padding: 5px;*/
+    
+    color:white;
 }
 
 .door-cell-blue {
-    background-color:blue;
-    padding: 5px;
-    font-size: 20px;
+    background-color: #2980b9;
+    /*padding: 5px;*/
+    
 }
 
 .door-cell-green {
-    background-color:green;
-    padding: 5px;
-    font-size: 20px;
+    background-color:#27ae60;
+    /*padding: 5px;*/
+    
 }
 
 .door-cell-yellow {
-    background-color:orange;
-    padding: 5px;
-    font-size: 20px;
+    background-color:#f39c12;
+    /*padding: 5px;*/
+    
 }
 
 .key-cell-red i{
-    color:red;
+    color :#e74c3c;
     background-color: transparent;
-    padding: 5px;
-    font-size: 20px;
+    /*padding: 5px;*/
+    
 }
 
 .key-cell-blue i{
-    color:blue;
+    color: #2980b9;
     background-color: transparent;
-    padding: 5px;
-    font-size: 20px;
+    /*padding: 5px;*/
+    
 }
 
 .key-cell-green i{
-    color:green;
+    color:#27ae60;
     background-color: transparent;
-    padding: 5px;
-    font-size: 20px;
+    /*padding: 5px;*/
+    
 }
 
 .key-cell-yellow i{
-    color:orange;
+    color:#f39c12;
     background-color: transparent;
+    /*padding: 5px;*/
+    
+}
+#menu{
+    font-size: 32px;
+}
+#menu>div {
+    cursor: pointer;
+}
+.door-green i,.key-green i{
+    color: #27ae60;
+}
+.door-red i,.key-red i{
+    color: #e74c3c;
+}
+.door-blue i,.key-blue i{
+    color: #2980b9;
+}
+.door-yellow i,.key-yellow i{
+    color: #f39c12;
+}
+.wall  i{
+    color:#2c3e50;
+}
+i{
+    /* padding: 20px; */
     padding: 5px;
-    font-size: 20px;
+}
+.player-cell,.exit-cell{
+    background-color: #8e44ad;
+}
+
+.path{
+    background-color: #2ecc71 !important;
 }
